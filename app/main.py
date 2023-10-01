@@ -5,7 +5,7 @@ PROJECT NAME: Live Recorder Endpoint
 
 from fastapi import FastAPI, HTTPException, Query, Header
 from uuid import uuid4
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import os
 from azure.storage.blob import BlobServiceClient, PublicAccess, ContentSettings
 from azure.core.exceptions import ResourceNotFoundError
@@ -35,10 +35,10 @@ class StreamRecordingResponse(BaseModel):
   message: str
  
 class Chunk(BaseModel):
-  data: str
-  blob_name: str
+  data: str = Field (..., description="Base64-encoded binary data")
+  blob_name: str 
   folder_name: str
-  content_type: str
+  content_type: str = Field(..., description="MIME type of the content", example=" 'video/mp4' | 'video/webm' | 'video/mkv'")
 
 
 class VideoResponse(BaseModel):

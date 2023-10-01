@@ -150,7 +150,7 @@ async def stream_recording(file: Chunk) -> StreamRecordingResponse:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/stop_recording", status_code=200)
+@app.post("/api/stop_recording", status_code=200)
 async def stop_recording(file:  VideoRequest) -> VideoResponse:
   folder_name = file.folder_name
   blob_name = file.blob_name

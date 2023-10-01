@@ -12,7 +12,7 @@ from azure.core.exceptions import ResourceNotFoundError
 import base64
 from dotenv import load_dotenv
 from datetime import datetime
-from moviepy.editor import VideoFileClip
+# from moviepy.editor import VideoFileClip
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 

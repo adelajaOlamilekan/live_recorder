@@ -3,14 +3,12 @@ PROJECT NAME: Live Recorder Endpoint
 
 """
 
-from fastapi import FastAPI, UploadFile, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query
 from uuid import uuid4
 from pydantic import BaseModel
 import os
-#from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, PublicAccess
+from azure.storage.blob import BlobServiceClient, PublicAccess
 from azure.core.exceptions import ResourceNotFoundError
-from io import BytesIO
 import base64
 from dotenv import load_dotenv
 
@@ -19,7 +17,6 @@ app = FastAPI()
 
 load_dotenv()
 
-CONTAINER_NAME = os.environ.get("CONTAINER_NAME")
 ACCOUNT_URL = os.environ.get("ACCOUNT_URL")
 CONNECTION_STRING = os.environ.get("CONNECTION_STRING")
 
@@ -45,12 +42,7 @@ class VideoResponse(BaseModel):
 
 class VideoRequest(BaseModel):
   folder_name: str
-  blob_name: str
-
-account_url = ACCOUNT_URL
-connection_string = CONNECTION_STRING
-
-# default_credential = DefaultAzureCredential() 
+  blob_name: str 
 
 #CREATE RECORDING SESSION FOLDER ID
 @app.post("/api/start_recording", status_code=201)

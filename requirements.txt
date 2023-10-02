@@ -1,4 +1,4 @@
-azure_storage==0.37.0
+azure_storage-blob==12.18.2
 fastapi==0.103.2
 moviepy==1.0.3
 pydantic==2.4.2

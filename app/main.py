@@ -60,7 +60,7 @@ class Chunk(BaseModel):
 class VideoResponse(BaseModel):
   status_code: int
   message: str
-  url: str
+  video_url: str
   creation_time : str
   modified_time: str
   content_type: str

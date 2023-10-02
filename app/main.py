@@ -155,10 +155,8 @@ async def stream_recording(file: Chunk) -> StreamRecordingResponse:
 
 
 
-@app.get("/api/stop_recording", status_code=200)
-async def stop_recording(file:  VideoRequest) -> VideoResponse:
-  folder_name = file.folder_name
-  blob_name = file.blob_name
+@app.get("/api/stop_recording/{folder_name}/{blob_name}", status_code=200)
+async def stop_recording(folder_name: str, blob_name: str) -> VideoResponse:
   SUCCESS_MESSAGE = "Video Retrieved Successfully"
 
   try:

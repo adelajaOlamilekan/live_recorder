@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
-from moviepy.editor import VideoFileClip
-import whisper
+# from moviepy.editor import VideoFileClip
+# import whisper
 
 app = FastAPI()
 
@@ -109,9 +109,9 @@ async def stream_recording(file: Chunk) -> StreamRecordingResponse:
     blob_name = file.blob_name
     content_type = format
    
-    VIDEO_LOCAL_PATH = f"{blob_name}.{format}"
+    # VIDEO_LOCAL_PATH = f"{blob_name}.{format}"
 
-    print(VIDEO_LOCAL_PATH)
+    # print(VIDEO_LOCAL_PATH)
 
     try:
 
@@ -140,8 +140,8 @@ async def stream_recording(file: Chunk) -> StreamRecordingResponse:
         # Read the binary data from the uploaded file and append it to the Append Blob
         blob_client.append_block(file_data, length=len(file_data))
 
-        with open(VIDEO_LOCAL_PATH, "ab") as video_file:
-          video_file.write(file_data)
+        # with open(VIDEO_LOCAL_PATH, "ab") as video_file:
+        #   video_file.write(file_data)
     
         
         return StreamRecordingResponse(message= "Binary data appended successfully.", status_code=201)
@@ -175,34 +175,34 @@ async def stop_recording(folder_name: str, blob_name: str) -> VideoResponse:
     video_url = blob_client.url
 
     #Transcribing the Video
-    video_format = content_type.replace("video/", "")
+    # video_format = content_type.replace("video/", "")
 
-    video_file_path = f"{blob_name}.{video_format}"
+    # video_file_path = f"{blob_name}.{video_format}"
 
-    if isinstance(video_file_path, Path):
-      video_file_path = str(video_file_path)
+    # if isinstance(video_file_path, Path):
+    #   video_file_path = str(video_file_path)
 
-    video_clip = VideoFileClip(video_file_path)
+    # video_clip = VideoFileClip(video_file_path)
 
-    audio_clip = video_clip.audio
+    # audio_clip = video_clip.audio
 
-    output_audio_file = f"{blob_name}.mp3"
+    # output_audio_file = f"{blob_name}.mp3"
 
-    audio_clip.write_audiofile(output_audio_file)
+    # audio_clip.write_audiofile(output_audio_file)
 
-    model = whisper.load_model("base")
+    # model = whisper.load_model("base")
 
-    result = model.transcribe(output_audio_file)
+    # result = model.transcribe(output_audio_file)
 
-    transcript_blob_name = f"transcript.txt" 
-    transcript_content_type = "text/plain"  
+    # transcript_blob_name = f"transcript.txt" 
+    # transcript_content_type = "text/plain"  
 
-    with open(transcript_blob_name, mode='w') as file:
-        transcript = result["text"]
-        file.write(transcript)
+    # with open(transcript_blob_name, mode='w') as file:
+    #     transcript = result["text"]
+    #     file.write(transcript)
 
-    video_clip.close()
-    audio_clip.close()
+    # video_clip.close()
+    # audio_clip.close()
 
     # Get or create a Blob client
     blob_client = container_client.get_blob_client(transcript_blob_name)
@@ -216,7 +216,7 @@ async def stop_recording(folder_name: str, blob_name: str) -> VideoResponse:
 
     return VideoResponse(status_code=200, message= SUCCESS_MESSAGE, video_url = video_url, 
                           creation_time=creation_time, modified_time=modified_time, 
-                          content_type=content_type, title=blob_name, transcript_url=transcript_url)
+                          content_type=content_type, title=blob_name)
   
   except ResourceNotFoundError:
     raise HTTPException(status_code=404, detail=f"Blob '{blob_name}' not found")

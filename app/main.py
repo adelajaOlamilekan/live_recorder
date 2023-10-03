@@ -65,7 +65,6 @@ class VideoResponse(BaseModel):
   modified_time: str
   content_type: str
   title: str
-  transcript_url:str
 
 class VideoRequest(BaseModel):
   folder_name: str
@@ -205,14 +204,14 @@ async def stop_recording(folder_name: str, blob_name: str) -> VideoResponse:
     # audio_clip.close()
 
     # Get or create a Blob client
-    blob_client = container_client.get_blob_client(transcript_blob_name)
+    # blob_client = container_client.get_blob_client(transcript_blob_name)
 
     # Create the blob as a block blob (for text files)
-    blob_client.upload_blob(open(transcript_blob_name, "rb"), content_settings=ContentSettings(content_type=transcript_content_type))
+    # blob_client.upload_blob(open(transcript_blob_name, "rb"), content_settings=ContentSettings(content_type=transcript_content_type))
 
     
     # Get the URL of the uploaded text file
-    transcript_url = blob_client.url
+    # transcript_url = blob_client.url
 
     return VideoResponse(status_code=200, message= SUCCESS_MESSAGE, video_url = video_url, 
                           creation_time=creation_time, modified_time=modified_time, 
